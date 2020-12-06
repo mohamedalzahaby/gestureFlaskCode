@@ -386,33 +386,6 @@ def getRecognizer(arrayOfzigzagMove, arrayOfPasses, arrayOfv):
             magnitude = getMagnitude(x, y)
             shapeArray = createArray(magnitude, z)
             Templates.append(Template("zigzagMove", shapeArray))
-
-    for allMoves in arrayOfPasses:
-            for k in range(len(allMoves)):
-                x, y, z = [], [], []
-                move = allMoves[k]
-                for i in range(len(move)):
-                    x.append(move[i][0])
-                    y.append(move[i][1])
-                    z.append(move[i][2])
-            magnitude = getMagnitude(x, y)
-            shapeArray = createArray(magnitude, z)
-            Templates.append(Template("pass", shapeArray))
-
-    for allMoves in arrayOfv:
-            for k in range(len(allMoves)):
-                x, y, z = [], [], []
-                move = allMoves[k]
-                for i in range(len(move)):
-                    x.append(move[i][0])
-                    y.append(move[i][1])
-                    z.append(move[i][2])
-            magnitude = getMagnitude(x, y)
-            shapeArray = createArray(magnitude, z)
-            Templates.append(Template("v", shapeArray))
-
-
-
     return Recognizer(Templates)
 
 
@@ -434,68 +407,70 @@ def predict(allMoves):
         result = recognizer.recognize(inputArray)
         return result
 
-mypath = "dataset/"
-arrayOfPasses = []
-passMove = [f for f in listdir(mypath + "pass") if isfile(join(mypath + "pass", f))]
-for move in passMove:
-    allMoves = segment("dataset/pass/"+move)
-    if len(allMoves) == 1:
-        arrayOfPasses.append(allMoves)
-    print("number of moves of pass = ", len(allMoves))
-    # result = predict(allMoves)
+
+"pass","v","walking part2", "zigzag"
+
+mypath = "new dataset/"
+arrayOfZigzags = []
+fileNames = [f for f in listdir(mypath + "zigzag") if isfile(join(mypath + "zigzag", f))]
+for fileName in fileNames:
+    allMoves = segment(mypath+"/zigzag/"+fileName)
+    # if len(allMoves) == 1:
+    arrayOfZigzags.append(allMoves)
+    print("number of moves in file = ", len(allMoves))
+    result = predict(allMoves)
     # print(result)
 print("==================================")
 
-arrayOfv = []
-vMove = [f for f in listdir(mypath + "v") if isfile(join(mypath + "v", f))]
-for move in vMove:
-
-    allMoves = segment("dataset/v/"+move,40)
-    if len(allMoves) == 1:
-        arrayOfv.append(allMoves)
-    print("number of moves of v = ", len(allMoves))
-    print(move)
-    # result = predict(allMoves)
-    # print(result)
-print("==================================")
-
-
-
-arrayOfzigzagMove = []
-zigzagMove = [f for f in listdir(mypath + "zigzagMove") if isfile(join(mypath + "zigzagMove", f))]
-for move in zigzagMove:
-    allMoves = segment("dataset/zigzagMove/"+move)
-    if len(allMoves) == 1:
-        arrayOfzigzagMove.append(allMoves)
-    print("number of moves of zigzagMove = ", len(allMoves))
-    # result = predict(allMoves)
-    # print(result)
-print("========================================================================================================================================")
-
-print("arrayOfzigzagMove, arrayOfPasses, arrayOfv = ",len(arrayOfzigzagMove), len(arrayOfPasses), len(arrayOfv))
-
+# arrayOfv = []
+# vMove = [f for f in listdir(mypath + "v") if isfile(join(mypath + "v", f))]
+# for move in vMove:
 #
+#     allMoves = segment("dataset/v/"+move,40)
+#     if len(allMoves) == 1:
+#         arrayOfv.append(allMoves)
+#     print("number of moves of v = ", len(allMoves))
+#     print(move)
+#     # result = predict(allMoves)
+#     # print(result)
+# print("==================================")
+#
+#
+#
+# arrayOfzigzagMove = []
+# zigzagMove = [f for f in listdir(mypath + "zigzagMove") if isfile(join(mypath + "zigzagMove", f))]
+# for move in zigzagMove:
+#     allMoves = segment("dataset/zigzagMove/"+move)
+#     if len(allMoves) == 1:
+#         arrayOfzigzagMove.append(allMoves)
+#     print("number of moves of zigzagMove = ", len(allMoves))
+#     # result = predict(allMoves)
+#     # print(result)
+# print("========================================================================================================================================")
+#
+# print("arrayOfzigzagMove, arrayOfPasses, arrayOfv = ",len(arrayOfzigzagMove), len(arrayOfPasses), len(arrayOfv))
 
 
-allMoves = segment("testing/v_5617215933977.txt")
-print("number of moves = ", len(allMoves))
+# allMoves = segment("testing/v_5617215933977.txt")
 # print("number of moves = ", len(allMoves))
-for k in range(len(allMoves)):
-    x, y, z = [], [], []
-    move = allMoves[k]
-    for i in range(len(move)):
-        x.append(move[i][0])
-        y.append(move[i][1])
-        z.append(move[i][2])
-
-    recognizer = getRecognizer(arrayOfzigzagMove, arrayOfPasses, arrayOfv)
-
-    Magnitude = getMagnitude(x, y)
-    inputArray = createArray(Magnitude, z)
-    print("length of inputArray = ", len(inputArray))
-    result = recognizer.recognize(inputArray)
-    print(result)
-
-# result = predict(allMoves)
-# print(result)
-print("==================================")
+# # print("number of moves = ", len(allMoves))
+# for k in range(len(allMoves)):
+#     x, y, z = [], [], []
+#     move = allMoves[k]
+#     for i in range(len(move)):
+#         x.append(move[i][0])
+#         y.append(move[i][1])
+#         z.append(move[i][2])
+#
+#     recognizer = getRecognizer(arrayOfzigzagMove, arrayOfPasses, arrayOfv)
+#
+#     Magnitude = getMagnitude(x, y)
+#     inputArray = createArray(Magnitude, z)
+#     print("length of inputArray = ", len(inputArray))
+#     result = recognizer.recognize(inputArray)
+#     print(result)
+#
+# # result = predict(allMoves)
+# # print(result)
+# print("==================================")
+# #
