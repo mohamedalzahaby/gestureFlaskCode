@@ -103,6 +103,4 @@ for file in testingFiles:
         #     if i%5 == 0 and i != 0:
         #         result = recognizer.recognize(inputArray,i)
         #         print("n = ",i," result = ",result)
-#
-#
-#
+
