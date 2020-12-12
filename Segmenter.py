@@ -21,7 +21,7 @@ def segment(textFileName, plotting = False, window=2, numberOfPointsInWindow=5, 
     #     print(summations[i],summations[i+1],summations[i+2], summations[i+3],summations[i+4],summations[i+5],summations[i+6])
     # print("=======================================================================================================================")
     mode = max(set(summations), key=summations.count)
-    print("mode = ", mode)
+    # print("mode = ", mode)
     modes = getArrayOfModes(mode, timestamp)
     smaWithNan = getNumberOfCycles(mode, magnitudes)
 
