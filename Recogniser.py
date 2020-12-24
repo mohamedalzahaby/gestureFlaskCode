@@ -63,19 +63,32 @@ def get_xyz_of_move(move):
 
 
 
-def getDirMoves(mypath , dirName):
-    directoryMoves = []
+def get_all_moves_in_dir(mypath, dirName):
+    all_moves_in_dir = []
     files = [f for f in listdir(mypath + dirName) if isfile(join(mypath + dirName, f))]
     for fileName in files:
+        all_moves_in_file = segment(mypath + dirName + "/" + fileName)
+        all_moves_in_dir.append(all_moves_in_file)
+        # print("number of moves in file = ", len(all_moves_in_file))
+    return all_moves_in_dir
 
-        oneFileMoves = segment(mypath + dirName + "/" + fileName)
-        directoryMoves.append(oneFileMoves)
-        # print("number of moves in file = ", len(oneFileMoves))
-    return directoryMoves
-
-def getAllDirS_moves(mypath, allDirNames):
-    allDirsMoves = []
+def get_all_moves_in_all_dirs(mypath, allDirNames):
+    all_moves_in_all_dirs = []
     for dirName in allDirNames:
-        directoryMoves = getDirMoves(mypath, dirName)
-        allDirsMoves.append(directoryMoves)
-    return allDirsMoves
+        all_moves_in_dir = get_all_moves_in_dir(mypath, dirName)
+        all_moves_in_all_dirs.append(all_moves_in_dir)
+    return all_moves_in_all_dirs
+
+
+
+# all_moves_in_all_dirs array(
+#                               all_moves_in_dirarray(
+#                                                       all_moves_in_file array(
+#                                                                                  moves
+#                                                                                  moves
+#                                                                               )
+v#                                                       all_moves_in_file array()
+#                                                    )
+#                               all_moves_in_dirarray()
+#                            )
+

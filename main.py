@@ -1,11 +1,12 @@
 import sys
 import os
 from flask import Flask, jsonify, request, flash
-from werkzeug.utils import secure_filename
-# from segmenting_cycles import segment,predict
+# from werkzeug.utils import secure_filename
+from segmenting_cycles import runSingleFile
 import random
 import string
 import datetime
+import math
 
 app = Flask(__name__)
 
@@ -19,13 +20,12 @@ def upload():
     file = request.files['file']
     route = 'testing/'+file.filename
     file.save(route)
-
-    # allMoves = segment(route)
-    # print("number of moves = ", len(allMoves))
-    # result = predict(allMoves)
-    # print(result)
-    return "jjjjjjjjjj"
-    # return 'file sent to server'
+    result = runSingleFile(route)
+    if result:
+        result = "result is {}, accuracy = {}%".format(result[0], math.ceil(result[1]*100))
+    print(result)
+    # return result
+    return 'file sent to server'
 
 
 
@@ -40,5 +40,5 @@ def get_random_string(length):
 
 
 if __name__ == "__main__":
-   app.run(host='192.168.1.9', port=5000, debug=True)
+   app.run(host='192.168.1.7', port=5000, debug=True)
 
