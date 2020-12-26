@@ -2,12 +2,7 @@ from dollarpy import Recognizer, Template, Point
 from os import listdir
 from os.path import isfile, join
 from Segmenter import segment
-import pandas as pd
-import os
 import math
-from numpy import genfromtxt
-import matplotlib.pyplot as plt
-import numpy as np
 
 
 # magnitude of xy
@@ -19,23 +14,39 @@ def getMagnitude(x, y):
     return xyMagnitudes
 
 
-def createArray(magnitude, z):
-    tempArray = []
+def getPoints(magnitude, z, numberOfStrokes = 1):
     # print(len(magnitude))
+    points = []
     for i in range(len(magnitude)):
-        tempArray.append(Point(magnitude[i], z[i], 1))
-    return tempArray
+        point = Point(magnitude[i], z[i], numberOfStrokes)
+        points.append(point)
+    return points
+
+def getPointsWithoutStrokes(magnitude, z):
+    points = []
+    for i in range(len(magnitude)):
+        point = [magnitude[i], z[i]]
+        points.append(point)
+    return points
+
+def getPointsWithxyz(x, y, z):
+    points = []
+    for i in range(len(x)):
+        point = [x[i], y[i], z[i]]
+        points.append(point)
+    return points
 
 
-def getRecognizer(all_Moves_in_ever_dir, dirNames):
-    Templates = getTemplates(all_Moves_in_ever_dir, dirNames)
+def getRecognizer(all_moves_in_all_dirs, dirNames):
+    Templates = getTemplates(all_moves_in_all_dirs, dirNames)
     return Recognizer(Templates)
 
 # go through every directory and get its templates to return dribbling_pass_v_zigzag template
-def getTemplates(all_Moves_in_ever_dir, dirNames):
+def getTemplates(all_moves_in_all_dirs, dirNames):
     Templates = []
-    for i in range(len(all_Moves_in_ever_dir)):
-        dirTemplates = getTemplatesInDirectory(all_Moves_in_ever_dir[i], dirNames[i])
+    for i in range(len(all_moves_in_all_dirs)):
+        all_moves_in_one_dir = all_moves_in_all_dirs[i]
+        dirTemplates = getTemplatesInDirectory(all_moves_in_one_dir, dirNames[i])
         Templates.extend(dirTemplates)
     return Templates
 
@@ -47,8 +58,11 @@ def getTemplatesInDirectory(dirMoves, dirName):
         for move in fileMoves:
             x, y, z = get_xyz_of_move(move)
             magnitude = getMagnitude(x, y)
-            shapeArray = createArray(magnitude, z)
-            template = Template(dirName, shapeArray)
+            points = getPoints(magnitude, z)
+            template = Template(dirName, points)
+            # if i == 0:
+            #     # print("points = ", type(points[0]))
+            #     print("template points = ",template[0].x)
             Templates.append(template)
     return Templates
 
@@ -87,7 +101,7 @@ def get_all_moves_in_all_dirs(mypath, allDirNames):
 #                                                                                  moves
 #                                                                                  moves
 #                                                                               )
-v#                                                       all_moves_in_file array()
+#                                                       all_moves_in_file array()
 #                                                    )
 #                               all_moves_in_dirarray()
 #                            )

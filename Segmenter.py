@@ -25,17 +25,38 @@ def segment(textFileName, plotting = False, window=2, numberOfPointsInWindow=5, 
     modes = getArrayOfModes(mode, timestamp)
     smaWithNan = getNumberOfCycles(mode, magnitudes)
 
-    if plotting:
-        plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, modes, True)
-        plotMovingAverageWithThreshold(timestamp, modes, smaWithNan)
-        scatterMovingAverageWithThreshold(timestamp, modes, sma)
-        scatterMovingAverageWithThreshold(timestamp, modes, smaWithNan)
+    # if plotting:
+    #     plt.switch_backend('TkAgg')  # TkAgg (instead Qt4Agg)
+    #     fig, axs = plt.subplots(2)
+    #     fig.suptitle('segmentation')
+    #     mng = plt.get_current_fig_manager()
+    #     ## works on Ubuntu??? >> did NOT working on windows
+    #     mng.resize(*mng.window.maxsize())
+    #     mng.window.state('zoomed')  # works fine on Windows!
+    #     plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, modes, axs[0], True)
+    #     plotMovingAverageWithThreshold(timestamp, modes, smaWithNan, axs[1])
+    #     plt.show()
+    #     plt.switch_backend('TkAgg')  # TkAgg (instead Qt4Agg)
+    #     fig, axs = plt.subplots(2)
+    #     fig.suptitle('segmentation')
+    #     mng = plt.get_current_fig_manager()
+    #     ## works on Ubuntu??? >> did NOT working on windows
+    #     mng.resize(*mng.window.maxsize())
+    #     mng.window.state('zoomed')  # works fine on Windows!
+    #     scatterMovingAverageWithThreshold(timestamp, modes, sma, axs[0])
+    #     scatterMovingAverageWithThreshold(timestamp, modes, smaWithNan, axs[1])
+    #     plt.show()
+
 
     allMoves = filterFromNullPoints(smaWithNan)
-    # for i in range(len(allMoves)):
-    #     print("move ", i, " ", len(allMoves[i]))
+    # if plotting:
+    #     for i in range(len(allMoves)):
+    #         print("move[", i, "] length = ", len(allMoves[i]))
+
     allMoves = [i for i in allMoves if len(i) > threshholdFilter]
     all_Moves_With_axis = get_All_Moves_With_axis(allMoves, magnitudes, ax, ay, az)
+    # if plotting:
+    #     print("all_Moves_With_axis = ",all_Moves_With_axis)
 
     return all_Moves_With_axis
 
@@ -97,24 +118,23 @@ def getArrayOfModes(mode, timestamp):
 
 def getNumberOfCycles(mode, sma):
     # print("mode=", mode)
-    ctr = 0
     newSMA = sma.copy()
     for i in range(len(newSMA)):
         if (newSMA[i] < mode):
             newSMA[i] = None
     return newSMA
 
-def filterFromNullPoints(smaWithNan):
+def filterFromNullPoints(magnitudes):
     nanStart = False
     move = []
     allMoves = []
-    for counter in range(len(smaWithNan) - 1):
-        if (smaWithNan[counter] is None) == False:
-            move.append(smaWithNan[counter])  # 1 cycle
+    for counter in range(len(magnitudes) - 1):
+        if (magnitudes[counter] is None) == False:
+            move.append(magnitudes[counter])  # 1 cycle
             if nanStart == False:
                 nanStart = True
-        elif (smaWithNan[counter] is None) == True and (
-                smaWithNan[counter + 1] is None) == False and nanStart == True:
+        elif (magnitudes[counter] is None) == True and (
+                magnitudes[counter + 1] is None) == False and nanStart == True:
             allMoves.append(move)
             move = []
     if len(move) > 0:
@@ -164,45 +184,42 @@ def plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, magnitudePlotting=
     plt.xlabel('timestamp')
     plt.show()
 
-def plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, mode, magnitudePlotting=True):
+def plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, mode, axs, magnitudePlotting=True ):
     mysma = sma.copy()
     if (magnitudePlotting):
-        plt.plot(timestamp, magnitudes)
+        axs.plot(timestamp, magnitudes)
     lengthDiff = len(timestamp) - len(mysma)
     for i in range(lengthDiff):
         mysma = np.append(mysma, None)
-    plt.plot(timestamp, mysma)
-    plt.plot(timestamp, mode)
+    axs.plot(timestamp, mysma)
+    axs.plot(timestamp, mode)
     if (magnitudePlotting):
         plt.ylabel('Magnitude & Moving Average')
     else:
         plt.ylabel('Moving Average')
     plt.xlabel('timestamp')
-    plt.show()
 
-def plotMovingAverageWithThreshold(timestamp, mode, sma):
+def plotMovingAverageWithThreshold(timestamp, mode, sma, axs):
     mysma = sma.copy()
     if (len(timestamp) > len(mysma)):
         lengthDiff = len(timestamp) - len(mysma)
         for i in range(lengthDiff):
             mysma = np.append(mysma, None)
-    plt.plot(timestamp, mysma)
-    plt.plot(timestamp, mode)
+    axs.plot(timestamp, mysma)
+    axs.plot(timestamp, mode)
     plt.ylabel('Moving Average & threshold')
     plt.xlabel('timestamp')
-    plt.show()
 
-def scatterMovingAverageWithThreshold(timestamp, mode, sma):
+def scatterMovingAverageWithThreshold(timestamp, mode, sma, axs):
     mysma = sma.copy()
     if (len(timestamp) > len(mysma)):
         lengthDiff = len(timestamp) - len(mysma)
         for i in range(lengthDiff):
             mysma = np.append(mysma, None)
-    plt.scatter(timestamp, mysma)
-    plt.plot(timestamp, mode, color='orange')
+    axs.scatter(timestamp, mysma)
+    axs.plot(timestamp, mode, color='orange')
     plt.ylabel('Moving Average & threshold')
     plt.xlabel('timestamp')
-    plt.show()
 
 def getWindowSummation(WindowPoints):
     sum = 0
