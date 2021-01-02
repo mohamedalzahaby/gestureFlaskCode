@@ -97,29 +97,29 @@ def runSingleFile(file):
     for resultData in results:
         result , score= resultData
         print("score =",score)
-        print("result =", result.dirName)
+        print("result =", result.name)
         # for point in result.Points:
         #     print("strokeId =", point.strokeId, "x =", point.x, "y =", point.y, "intX =", point.intX, "intY =", point.intY)
         #     print("=======================================================================================")
 
-# runSingleFile("testing/Passtoday_66017079593508.txt")
+runSingleFile("testing/v_23871390355108.txt")
 # runAllTestFiles()
 
-dataset = []
-root = "new dataset/"
-dirNames = ["pass","v", "zigzag", "dribbling"]
-for dirName in dirNames:
-    trainingMoves = []
-    testingMoves = []
-    dir = listdir(root + dirName)
-    end = int(len(dir) * 0.7 + 1)
-    trainingFiles , testingFiles  = dir[:end] , dir[end:]
-    [trainingMoves.append(segment(root+dirName+'/'+file)) for file in trainingFiles]
-    [testingMoves.append(segment(root+dirName+'/'+file)) for file in trainingFiles]
-    tuple = (dirName , trainingMoves, testingMoves)
-    dataset.append(tuple)
-    print(dataset)
-    break
+# dataset = []
+# root = "new dataset/"
+# dirNames = ["pass","v", "zigzag", "dribbling"]
+# for dirName in dirNames:
+#     trainingMoves = []
+#     testingMoves = []
+#     dir = listdir(root + dirName)
+#     end = int(len(dir) * 0.7 + 1)
+#     trainingFiles , testingFiles  = dir[:end] , dir[end:]
+#     [trainingMoves.append(segment(root+dirName+'/'+file)) for file in trainingFiles]
+#     [testingMoves.append(segment(root+dirName+'/'+file)) for file in trainingFiles]
+#     tuple = (dirName , trainingMoves, testingMoves)
+#     dataset.append(tuple)
+#     print(dataset)
+#     break
 
 
 

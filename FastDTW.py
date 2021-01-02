@@ -80,3 +80,4 @@ def fastDtw(file):
     # results = get_FastDtw_Results_through_magnitude(file, recognizer)
     results = get_FastDtw_Results_through_xyz(file, allDirsMoves, dirNames)
     print(results)
+

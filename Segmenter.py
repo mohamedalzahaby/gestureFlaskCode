@@ -25,27 +25,27 @@ def segment(textFileName, plotting = False, window=2, numberOfPointsInWindow=5, 
     modes = getArrayOfModes(mode, timestamp)
     smaWithNan = getNumberOfCycles(mode, magnitudes)
 
-    # if plotting:
-    #     plt.switch_backend('TkAgg')  # TkAgg (instead Qt4Agg)
-    #     fig, axs = plt.subplots(2)
-    #     fig.suptitle('segmentation')
-    #     mng = plt.get_current_fig_manager()
-    #     ## works on Ubuntu??? >> did NOT working on windows
-    #     mng.resize(*mng.window.maxsize())
-    #     mng.window.state('zoomed')  # works fine on Windows!
-    #     plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, modes, axs[0], True)
-    #     plotMovingAverageWithThreshold(timestamp, modes, smaWithNan, axs[1])
-    #     plt.show()
-    #     plt.switch_backend('TkAgg')  # TkAgg (instead Qt4Agg)
-    #     fig, axs = plt.subplots(2)
-    #     fig.suptitle('segmentation')
-    #     mng = plt.get_current_fig_manager()
-    #     ## works on Ubuntu??? >> did NOT working on windows
-    #     mng.resize(*mng.window.maxsize())
-    #     mng.window.state('zoomed')  # works fine on Windows!
-    #     scatterMovingAverageWithThreshold(timestamp, modes, sma, axs[0])
-    #     scatterMovingAverageWithThreshold(timestamp, modes, smaWithNan, axs[1])
-    #     plt.show()
+    if plotting:
+        plt.switch_backend('TkAgg')  # TkAgg (instead Qt4Agg)
+        fig, axs = plt.subplots(2)
+        fig.suptitle('segmentation')
+        mng = plt.get_current_fig_manager()
+        ## works on Ubuntu??? >> did NOT working on windows
+        mng.resize(*mng.window.maxsize())
+        mng.window.state('zoomed')  # works fine on Windows!
+        plotMagnitudeAndMovingAverage(timestamp, magnitudes, sma, modes, axs[0], True)
+        plotMovingAverageWithThreshold(timestamp, modes, smaWithNan, axs[1])
+        plt.show()
+        plt.switch_backend('TkAgg')  # TkAgg (instead Qt4Agg)
+        fig, axs = plt.subplots(2)
+        fig.suptitle('segmentation')
+        mng = plt.get_current_fig_manager()
+        ## works on Ubuntu??? >> did NOT working on windows
+        mng.resize(*mng.window.maxsize())
+        mng.window.state('zoomed')  # works fine on Windows!
+        scatterMovingAverageWithThreshold(timestamp, modes, sma, axs[0])
+        scatterMovingAverageWithThreshold(timestamp, modes, smaWithNan, axs[1])
+        plt.show()
 
 
     allMoves = filterFromNullPoints(smaWithNan)
@@ -143,20 +143,20 @@ def filterFromNullPoints(magnitudes):
     return allMoves
 
 def get_All_Moves_With_axis(allMoves, magnitudes, x, y, z):
-    all_Moves_With_Zaxis = []
+    all_Moves_With_axises = []
     for move in allMoves:
-        magnitude_With_Zaxis = []
+        magnitude_With_axises = []
         for magnitude in move:
             index = magnitudes.index(magnitude)
-            magnitude_With_Zaxis.append([x[index], y[index], z[index]])
-        all_Moves_With_Zaxis.append(magnitude_With_Zaxis)
+            magnitude_With_axises.append([x[index], y[index], z[index]])
+        all_Moves_With_axises.append(magnitude_With_axises)
 
     # # for printing results
-    # for i in range(len(all_Moves_With_Zaxis)):
+    # for i in range(len(all_Moves_With_axises)):
     #   print("move ",i)
-    #   for points in all_Moves_With_Zaxis[i]:
+    #   for points in all_Moves_With_axises[i]:
     #     print(points)
-    return all_Moves_With_Zaxis
+    return all_Moves_With_axises
 
 # @staticmethod
 def split_arrays(textFileName):

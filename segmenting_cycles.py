@@ -5,8 +5,8 @@ from FastDTW import fastDtw
 
 #################### MAIN HERE ####################
 # runAllTestFiles()
-runSingleFile("testing/Passtoday_66017079593508.txt")
-# fastDtw("testing/pass_54566035684797.txt")
+runSingleFile("testing/v_dribbling_pass_125906839862844.txt")
+# fastDtw("testing/v_dribbling_pass_125874054554087.txt")
 # print(result)
 from Segmenter import segment
 
