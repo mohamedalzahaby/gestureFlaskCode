@@ -2,7 +2,7 @@ import sys
 import os
 from flask import Flask, jsonify, request, flash
 # from werkzeug.utils import secure_filename
-from segmenting_cycles import runSingleFile
+# from segmenting_cycles import runSingleFile
 import random
 import string
 import datetime
@@ -20,10 +20,10 @@ def upload():
     file = request.files['file']
     route = 'testing/'+file.filename
     file.save(route)
-    result = runSingleFile(route)
-    if result:
-        result = "result is {}, accuracy = {}%".format(result[0], math.ceil(result[1]*100))
-    print(result)
+    # result = runSingleFile(route)
+    # if result:
+    #     result = "result is {}, accuracy = {}%".format(result[0], math.ceil(result[1]*100))
+    # print(result)
     # return result
     return 'file sent to server'
 
