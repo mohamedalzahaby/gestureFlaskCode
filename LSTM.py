@@ -1,2 +1,0 @@
-# predict(textFileName)
-# return string
